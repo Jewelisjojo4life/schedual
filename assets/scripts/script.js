@@ -5,17 +5,12 @@ function myTimer() {
   let time = date.toLocaleTimeString();
   document.getElementById("clock").innerHTML = time;
 
-  // loop over time blocks
   $(".time-block").each(function () {
-    var myTimer = parseInt($(this).attr("id").split("hour")[1]);
-    console.log(myTimer, time);
+    var clockNow = parseInt($(this).attr("id").split("hour")[1]);
 
-    //check if we've moved past this time, click into css/html given classes of past, present, or future
-    if (myTimer < time) {
+    if (myVar < clockNow) {
       $(this).addClass("past");
-      $(this).removeClass("future");
-      $(this).removeClass("present");
-    } else if (myTimer === time) {
+    } else if (myVar === clockNow) {
       $(this).removeClass("past");
       $(this).addClass("present");
       $(this).removeClass("future");
@@ -26,4 +21,3 @@ function myTimer() {
     }
   });
 }
-hourTracker();
