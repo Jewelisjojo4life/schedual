@@ -1,3 +1,5 @@
+var timeday = dayjs();
+$("#currentDay").text(timeday.format("dddd, MMMM Do"));
 var myVar = setInterval(myTimer, 1000);
 
 function myTimer() {
@@ -6,18 +8,39 @@ function myTimer() {
   document.getElementById("clock").innerHTML = time;
 
   $(".time-block").each(function () {
-    var clockNow = parseInt($(this).attr("id").split("hour")[1]);
+    var clockNow = parseInt($(this).attr("id").split("hour-")[1].slice(0, 2));
+    var currentHour = parseInt(date.getHours());
 
-    if (myVar < clockNow) {
+    if (currentHour > clockNow) {
       $(this).addClass("past");
-    } else if (myVar === clockNow) {
-      $(this).removeClass("past");
+    } else if (currentHour === clockNow) {
       $(this).addClass("present");
-      $(this).removeClass("future");
     } else {
-      $(this).removeClass("present");
-      $(this).removeClass("past");
       $(this).addClass("future");
     }
   });
 }
+
+const textBox = $(".description");
+
+textBox.each(function () {
+  var timeId = $(this).parent().attr("id");
+  var descr = localStorage.getItem(timeId);
+
+  if (descr) {
+    $(this).val(descr);
+  }
+});
+
+var saveBtn = $(".saveBtn");
+
+saveBtn.each(function () {
+  var text = $(this).siblings(".description");
+  var timeId = $(this).parent().attr("id");
+
+  $(this).on("click", function () {
+    var descr = text.val();
+
+    localStorage.setItem(timeId, descr);
+  });
+});
